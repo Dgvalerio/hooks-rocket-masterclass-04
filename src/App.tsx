@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/* eslint-disable camelcase */
+import React, { FC, useState } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface User {
+  name: string;
+  login: string;
+  avatar_url: string;
 }
+
+const App: FC = () => {
+  const [user, setUser] = useState<User>();
+
+  const loadData = async () => {
+    const response = await fetch('https://api.github.com/users/diego3g');
+    const data = await response.json();
+
+    setUser(data);
+  };
+
+  (() => {
+    if (!user) loadData();
+  })();
+
+  return <div>User: {user?.login}</div>;
+};
 
 export default App;
