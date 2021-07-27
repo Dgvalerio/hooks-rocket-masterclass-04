@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { FC, useState } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 
 interface User {
   name: string;
@@ -8,20 +8,16 @@ interface User {
 }
 
 const App: FC = () => {
-  const [user, setUser] = useState<User>();
+  const [users, setUsers] = useState<[User]>();
 
-  const loadData = async () => {
-    const response = await fetch('https://api.github.com/users/diego3g');
-    const data = await response.json();
+  const names = useMemo(
+    () => users?.map((user) => user.name).join(', '),
+    [users]
+  );
 
-    setUser(data);
-  };
+  const greeting = useCallback((user: User) => alert(`Hello ${user.name}`), []);
 
-  (() => {
-    if (!user) loadData();
-  })();
-
-  return <div>User: {user?.login}</div>;
+  return <>?</>;
 };
 
 export default App;
