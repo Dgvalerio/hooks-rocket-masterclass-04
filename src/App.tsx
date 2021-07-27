@@ -1,26 +1,16 @@
 /* eslint-disable camelcase, @typescript-eslint/no-non-null-assertion */
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useRef } from 'react';
 
-interface User {
-  name: string;
-  login: string;
-  avatar_url: string;
-}
+import Form, { FormRef } from './Form';
 
 const App: FC = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<FormRef>(null);
 
-  const [users, setUsers] = useState<[User]>();
-
-  const focusOninput = () => {
-    inputRef.current!.focus();
+  const handleSubmit = () => {
+    formRef.current?.submit();
   };
 
-  return (
-    <form action="">
-      <input type="text" ref={inputRef} />
-    </form>
-  );
+  return <Form ref={formRef} />;
 };
 
 export default App;
